@@ -1,6 +1,16 @@
 package org.leanpoker.player
 
 import groovy.json.JsonSlurper
+import org.leanpoker.strategy.FlushStr
+import org.leanpoker.strategy.FourOfAKindStr
+import org.leanpoker.strategy.FullHouseStr
+import org.leanpoker.strategy.HighCardStr
+import org.leanpoker.strategy.OnePairStr
+import org.leanpoker.strategy.RoyalFlushStr
+import org.leanpoker.strategy.StraighFlushStr
+import org.leanpoker.strategy.StraightStr
+import org.leanpoker.strategy.ThreeOfAKindStr
+import org.leanpoker.strategy.TwoPairStr
 
 class Player {
 
@@ -17,6 +27,19 @@ class Player {
 	static def chickenPerc = 0.5
 
 	static boolean confIsSetup = false
+
+	static def strategies = [
+	        new HighCardStr(),
+			new OnePairStr(),
+			new TwoPairStr(),
+			new ThreeOfAKindStr(),
+			new StraightStr(),
+			new FlushStr(),
+			new FullHouseStr(),
+			new FourOfAKindStr(),
+			new StraighFlushStr(),
+			new RoyalFlushStr()
+	]
 
     static int betRequest(def gameState) {
 		try {
@@ -77,6 +100,13 @@ class Player {
 			confIsSetup = true
 		} catch (Exception e) {
 			println e
+		}
+	}
+
+	static void calculateChances(def gameState) {
+		strategies.each {
+			str ->
+				def chance = str.calculateChance(gameState)
 		}
 	}
 

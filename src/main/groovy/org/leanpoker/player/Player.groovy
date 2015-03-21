@@ -40,7 +40,7 @@ class Player {
 			}
 			bet
 		} catch (Exception e) {
-			throw e
+			println e
 			0
 		}
 	}

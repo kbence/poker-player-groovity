@@ -5,7 +5,7 @@ class Player {
     static final String VERSION = 'Default Groovy folding player';
 
     static int betRequest(def gameState) {
-        0
+        Math.floor(Math.random() * 1000) as Integer
     }
 
     static void showdown(def gameState) {

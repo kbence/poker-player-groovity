@@ -42,6 +42,8 @@ class Player {
 	]
 
     static int betRequest(def gameState) {
+        def bet = 0
+
 		try {
 			if (!confIsSetup) {
 				println '-' * 15 + ' UJ KOR ' + '-' * 15
@@ -55,7 +57,6 @@ class Player {
 			println("cards: $cards - chance: $winningChance")
 
 			def minimumChips = gameState.current_buy_in - us(gameState).bet
-			def bet = 0
 
 			if (winningChance >= allInPerc) {
 				bet = minimumChips + [us(gameState).stack * allInBetPerc, gameState.minimum_raise].max()
@@ -74,11 +75,13 @@ class Player {
 			if (bet > us(gameState).stack * chickenPerc) {
 				return minimumChips
 			}
-			Math.ceil(bet)
+			bet = Math.ceil(bet)
 		} catch (Exception e) {
 			println e
-			0
+			bet = 0
 		}
+
+        bet
 	}
 
     static void showdown(def gameState) {

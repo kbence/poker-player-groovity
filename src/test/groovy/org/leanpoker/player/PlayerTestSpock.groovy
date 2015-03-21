@@ -9,11 +9,11 @@ import spock.lang.Specification
  */
 class PlayerTestSpock extends Specification {
 
-	def "The default folding player should fold"() {
+	def "Player should return valid value"() {
 		given:
-		def gameState = new JsonSlurper().parseText('{"key1": "value1", "key2": "value2"}')
+		def gameState = new JsonSlurper().parseText(new File('src/test/resources/gamestate.json').text)
 
 		expect:
-		Player.betRequest(gameState) == 0
+		Player.betRequest(gameState) >= 0
 	}
 }

@@ -6,16 +6,15 @@ package org.leanpoker.player
 class CsvRanking {
 
 	static def rankValues = ['2','3','4','5','6','7','8','9','J','Q','K','A']
-	static def suitValues = ['S','H','C','D']
+	static def suitValues = ['spades','hearts','clubs','diamonds']
 
-	static void downloadCsv(def cards) {
+	static def downloadCsv(def cards) {
 		def url = getCsvUrl(cards)
 
 		def bas = new ByteArrayOutputStream()
 		def ous = new BufferedOutputStream(bas)
 		ous << new URL(url).openStream()
-		println bas.toString()
-		ous.close()
+		return bas.toString()
 	}
 
 	static def getCsvUrl(def cards) {
@@ -32,6 +31,17 @@ class CsvRanking {
 		rankValues.indexOf(card.rank) * 4 + suitValues.indexOf(card.suit)
 	}
 
-
+	static def getAvgWinChance(def cards) {
+		def csvContent = downloadCsv(cards)
+		def perc = []
+		csvContent.eachLine {
+			line ->
+				def chance = line.substring(line.indexOf(',') + 1)
+				if (chance.isNumber()) {
+					perc << chance.toFloat()
+				}
+		}
+		return perc.sum() / perc.size()
+	}
 
 }

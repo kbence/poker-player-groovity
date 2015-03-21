@@ -12,6 +12,6 @@ class CsvRankingTest extends Specification {
 		def gameState = new JsonSlurper().parseText(new File('src/test/resources/gamestate.json').text)
 
 		expect:
-		CsvRanking.downloadCsv(gameState.players.find { it.name == 'Groovity' }.hole_cards)
+		print CsvRanking.getAvgWinChance(gameState.players.find { it.name == 'Groovity' }.hole_cards)
 	}
 }

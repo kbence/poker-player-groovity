@@ -24,11 +24,11 @@
       "bet": 80,
       "hole_cards": [
         {
-          "rank": "6",
-          "suit": "hearts"
+          "rank": "A",
+          "suit": "diamonds"
         },
         {
-          "rank": "K",
+          "rank": "A",
           "suit": "spades"
         }
       ]

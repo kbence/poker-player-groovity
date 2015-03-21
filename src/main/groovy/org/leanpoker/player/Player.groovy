@@ -16,6 +16,8 @@ class Player {
 
     static final String VERSION = 'Groovity 2.0'
 
+    static final long CONFIG_REFRESH_INTERVAL = 60
+
 	static def winningChance = null
 
 	static def allInPerc = 0.4
@@ -28,6 +30,7 @@ class Player {
 
 	static boolean confIsSetup = false
 	static def prevCards
+    static long lastConfigDownload = 0
 
 	static def apiCallCount = 1
 
@@ -96,7 +99,9 @@ class Player {
 
     static void showdown(def gameState) {
 		winningChance = null
-//		confIsSetup = false
+        if (lastConfigDownload + CONFIG_REFRESH_INTERVAL * 1000 < System.currentTimeMillis()) {
+            confIsSetup = false
+        }
         println('=' * 78)
     }
 
@@ -116,6 +121,7 @@ class Player {
 			raiseStackPerc = confValues.raiseStackPerc
 			chickenPerc = confValues.chickenPerc
 			confIsSetup = true
+            lastConfigDownload = System.currentTimeMillis()
 		} catch (Exception e) {
 			println e
 		}

@@ -18,13 +18,13 @@ class Player {
 
 	static def winningChance = null
 
-	static def allInPerc = 0.6
-	static def raisePerc = 0.4
-	static def callPerc = 0.3
+	static def allInPerc = 0.4
+	static def raisePerc = 0.2
+	static def callPerc = 0.1
 
-	static def allInBetPerc = 0.0625
-	static def raiseStackPerc = 0.1
-	static def chickenPerc = 0.5
+	static def allInBetPerc = 0.6
+	static def raiseStackPerc = 0.5
+	static def chickenPerc = 1
 
 	static boolean confIsSetup = false
 	static def prevCards
@@ -90,7 +90,7 @@ class Player {
 
     static void showdown(def gameState) {
 		winningChance = null
-		confIsSetup = false
+//		confIsSetup = false
         println('=' * 78)
     }
 

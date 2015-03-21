@@ -19,8 +19,12 @@ class CsvRanking {
 	}
 
 	static def getCsvUrl(def cards) {
-		def card1 = getCardNumber(cards[0])
-		def card2 = getCardNumber(cards[1])
+		def c1 = getCardNumber(cards[0])
+		def c2 = getCardNumber(cards[1])
+
+        def card1 = [c1, c2].min()
+        def card2 = [c1, c2].max()
+
 		"http://holdem-odds.chrisbeaumont.org.s3-website-us-east-1.amazonaws.com/data/${card1}_${card2}.csv" as String
 	}
 

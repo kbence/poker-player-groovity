@@ -5,7 +5,7 @@ package org.leanpoker.player
  */
 class CsvRanking {
 
-	static def rankValues = ['2','3','4','5','6','7','8','9','J','Q','K','A']
+	static def rankValues = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']
 	static def suitValues = ['spades','hearts','clubs','diamonds']
 
 	static def downloadCsv(def cards) {

@@ -81,6 +81,7 @@ class Player {
     static void showdown(def gameState) {
 		winningChance = null
 		confIsSetup = false
+        println('=' * 78)
     }
 
 	static def us(def gameState) {

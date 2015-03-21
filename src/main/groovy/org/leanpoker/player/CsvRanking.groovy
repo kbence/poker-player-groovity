@@ -47,4 +47,3 @@ class CsvRanking {
 		return perc.sum() / perc.size()
 	}
 }
-

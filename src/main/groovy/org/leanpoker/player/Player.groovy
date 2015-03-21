@@ -29,6 +29,8 @@ class Player {
 	static boolean confIsSetup = false
 	static def prevCards
 
+	static def apiCallCount = 1
+
 	static def strategies = [
 	        new HighCardStr(),
 			new OnePairStr(),
@@ -44,6 +46,8 @@ class Player {
 
     static int betRequest(def gameState) {
         def bet = 0
+
+		println 'API call #' + (apiCallCount++)
 
 		try {
 			if (!confIsSetup) {

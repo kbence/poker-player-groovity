@@ -74,7 +74,7 @@ class Player {
 				println 'all in'
 			} else if (winningChance >= raisePerc) {
 				def diff = winningChance - raisePerc
-				def raise = diff * (1 / (raisePerc - callPerc)) * us(gameState).stack * raiseStackPerc
+				def raise = diff * (1 / (raisePerc - callPerc)) * [us(gameState).stack, 1000].min() * raiseStackPerc
 				println 'raise ' + raise
 				bet = minimumChips + [gameState.minimum_raise, raise].max()
 			} else if (winningChance >= callPerc) {

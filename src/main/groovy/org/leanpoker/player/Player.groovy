@@ -78,16 +78,18 @@ class Player {
 				println 'raise ' + raise
 				bet = minimumChips + [gameState.minimum_raise, raise].max()
 			} else if (winningChance >= callPerc) {
-				println 'call'
-				bet = minimumChips
+				if (minimumChips > us(gameState).stack * chickenPerc) {
+					println 'bet too large, do not call'
+					bet = 0
+				} else {
+					println 'call'
+					bet = minimumChips
+				}
 			} else {
 				println 'fold'
 			}
 
 			println 'bet ' + bet
-			if (bet > us(gameState).stack * chickenPerc) {
-				return minimumChips
-			}
 			bet = Math.ceil(bet)
 		} catch (Exception e) {
 			println 'EXCEPTION ' + e

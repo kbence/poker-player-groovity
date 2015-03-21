@@ -4,7 +4,7 @@ import groovy.json.JsonSlurper
 
 class Player {
 
-    static final String VERSION = 'Groovity 1.0'
+    static final String VERSION = 'Groovity 2.0'
 
 	static def winningChance = null
 

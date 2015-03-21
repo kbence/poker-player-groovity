@@ -44,6 +44,7 @@ class Player {
     static int betRequest(def gameState) {
 		try {
 			if (!confIsSetup) {
+				println '-' * 15 + ' UJ KOR ' + '-' * 15
 				setupConf()
 			}
 
@@ -58,12 +59,14 @@ class Player {
 
 			if (winningChance >= allInPerc) {
 				bet = minimumChips + [us(gameState).stack * allInBetPerc, gameState.minimum_raise].max()
+				println 'all in'
 			} else if (winningChance >= raisePerc) {
 				def diff = winningChance - raisePerc
 				def raise = diff * (1 / (raisePerc - callPerc)) * us(gameState).stack * raiseStackPerc
 				println 'raise ' + raise
 				bet = minimumChips + [gameState.minimum_raise, raise].max()
 			} else if (winningChance >= callPerc) {
+				println 'fold'
 				bet = minimumChips
 			}
 
@@ -104,11 +107,13 @@ class Player {
 		}
 	}
 
-	static void calculateChances(def gameState) {
-		strategies.each {
+	static def calculateMaxChances(def gameState) {
+		strategies.collect {
 			str ->
 				def chance = str.calculateChance(gameState)
-		}
+				def weight = str.getWeight()
+				chance * weight
+		}.max()
 	}
 
 }

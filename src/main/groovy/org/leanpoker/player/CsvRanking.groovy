@@ -17,6 +17,7 @@ class CsvRanking {
 		def bas = new ByteArrayOutputStream()
 		def ous = new BufferedOutputStream(bas)
 		ous << new URL(url).openStream()
+		ous.close()
 		return bas.toString()
 	}
 

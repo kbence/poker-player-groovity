@@ -10,7 +10,10 @@ class CsvRanking {
 
 	static def downloadCsv(def cards) {
 		def url = getCsvUrl(cards)
+		return downloadContent(url)
+	}
 
+	static String downloadContent(String url) {
 		def bas = new ByteArrayOutputStream()
 		def ous = new BufferedOutputStream(bas)
 		ous << new URL(url).openStream()

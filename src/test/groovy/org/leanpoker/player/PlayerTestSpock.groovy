@@ -18,4 +18,15 @@ class PlayerTestSpock extends Specification {
 		expect:
 		bet >= 0
 	}
+
+	def "download test"() {
+		given:
+		def bas = new ByteArrayOutputStream()
+		def ous = new BufferedOutputStream(bas)
+		ous << new URL('https://www.dropbox.com/s/t52u0g3d8zqmy0r/leanpoker.txt?raw=1').openStream()
+		println bas.toString()
+
+		expect:
+		true
+	}
 }

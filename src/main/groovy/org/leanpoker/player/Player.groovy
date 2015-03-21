@@ -1,5 +1,7 @@
 package org.leanpoker.player
 
+import groovy.json.JsonSlurper
+
 class Player {
 
     static final String VERSION = 'Groovity 1.0'
@@ -10,8 +12,18 @@ class Player {
 	static def raisePerc = 0.4
 	static def callPerc = 0.3
 
+	static def allInBetPerc = 0.0625
+	static def raiseStackPerc = 0.1
+	static def chickenPerc = 0.5
+
+	static boolean confIsSetup = false
+
     static int betRequest(def gameState) {
 		try {
+			if (!confIsSetup) {
+				setupConf()
+			}
+
 			def cards = us(gameState).hole_cards
 			if (winningChance == null) {
 				winningChance = CsvRanking.getAvgWinChance(cards)
@@ -22,23 +34,21 @@ class Player {
 			def bet = 0
 
 			if (winningChance >= allInPerc) {
-				bet = minimumChips + [us(gameState).stack / 16, gameState.minimum_raise].max()
-			} else
-			if (winningChance >= raisePerc) {
+				bet = minimumChips + [us(gameState).stack * allInBetPerc, gameState.minimum_raise].max()
+			} else if (winningChance >= raisePerc) {
 				def diff = winningChance - raisePerc
-				def raise = diff * 5 * us(gameState).stack * 0.1
+				def raise = diff * (1 / (raisePerc - callPerc)) * us(gameState).stack * raiseStackPerc
 				println 'raise ' + raise
 				bet = minimumChips + [gameState.minimum_raise, raise].max()
-			} else
-			if (winningChance >= callPerc) {
+			} else if (winningChance >= callPerc) {
 				bet = minimumChips
 			}
 
 			println 'bet ' + bet
-			if (bet > us(gameState).stack / 2) {
+			if (bet > us(gameState).stack * chickenPerc) {
 				return minimumChips
 			}
-			bet
+			Math.ceil(bet)
 		} catch (Exception e) {
 			println e
 			0
@@ -47,10 +57,27 @@ class Player {
 
     static void showdown(def gameState) {
 		winningChance = null
+		confIsSetup = false
     }
 
 	static def us(def gameState) {
 		gameState.players.find { it.name == 'Groovity' }
+	}
+
+	static void setupConf() {
+		try {
+			def json = CsvRanking.downloadContent('https://www.dropbox.com/s/t52u0g3d8zqmy0r/leanpoker.txt?raw=1')
+			def confValues = new JsonSlurper().parseText(json)
+			allInPerc = confValues.allInPerc
+			raisePerc = confValues.raisePerc
+			callPerc = confValues.callPerc
+			allInBetPerc = confValues.allInBetPerc
+			raiseStackPerc = confValues.raiseStackPerc
+			chickenPerc = confValues.chickenPerc
+			confIsSetup = true
+		} catch (Exception e) {
+			println e
+		}
 	}
 
 }

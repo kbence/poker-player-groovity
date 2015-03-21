@@ -27,6 +27,7 @@ class Player {
 	static def chickenPerc = 0.5
 
 	static boolean confIsSetup = false
+	static def prevCards
 
 	static def strategies = [
 	        new HighCardStr(),
@@ -51,8 +52,11 @@ class Player {
 			}
 
 			def cards = us(gameState).hole_cards
-			if (winningChance == null) {
+			def cardToken = "${cards[0].rank}${cards[0].suit}${cards[1].rank}${cards[1].suit}"
+			if (winningChance == null || cardToken != prevCards) {
+				println 'DOWNLOADING winning chance'
 				winningChance = CsvRanking.getAvgWinChance(cards)
+				prevCards = cardToken
 			}
 			println("cards: $cards - chance: $winningChance")
 
@@ -96,6 +100,7 @@ class Player {
 
 	static void setupConf() {
 		try {
+			println 'DOWNLOADING config'
 			def json = CsvRanking.downloadContent('https://www.dropbox.com/s/t52u0g3d8zqmy0r/leanpoker.txt?raw=1')
 			def confValues = new JsonSlurper().parseText(json)
 			allInPerc = confValues.allInPerc

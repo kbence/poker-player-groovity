@@ -47,7 +47,7 @@ class Player {
 
 		try {
 			if (!confIsSetup) {
-				println '-' * 15 + ' UJ KOR ' + '-' * 15
+				println '-' * 25 + ' UJ KOR ' + '-' * 25
 				setupConf()
 			}
 
@@ -71,8 +71,10 @@ class Player {
 				println 'raise ' + raise
 				bet = minimumChips + [gameState.minimum_raise, raise].max()
 			} else if (winningChance >= callPerc) {
-				println 'fold'
+				println 'call'
 				bet = minimumChips
+			} else {
+				println 'fold'
 			}
 
 			println 'bet ' + bet
@@ -81,7 +83,7 @@ class Player {
 			}
 			bet = Math.ceil(bet)
 		} catch (Exception e) {
-			println e
+			println 'EXCEPTION ' + e
 			bet = 0
 		}
 
